@@ -4,12 +4,3 @@ spring:
     url: jdbc:mysql://localhost:3306/settlement?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
     username: w2coding
     password: settlement
-
-  flyway:
-    enabled: true
-    url: jdbc:mysql://localhost:3306/settlement?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=utf8
-    locations: classpath:/db/migration
-    baseline-on-migrate: true
-    baseline-version: 0
-    user: w2coding
-    password: settlement
