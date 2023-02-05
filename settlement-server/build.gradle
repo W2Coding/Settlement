@@ -28,6 +28,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
+
+    // flyway
+    implementation 'org.flywaydb:flyway-mysql'
 }
 
 tasks.named('test') {
