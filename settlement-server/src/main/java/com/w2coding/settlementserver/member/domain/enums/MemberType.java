@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum MemberType {
 
-    BASIC('B'),
+    USER('U'),
     MANAGER('M'),
     MANAGER_LEADER('L'),
     ADMIN('A')
