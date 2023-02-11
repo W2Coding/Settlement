@@ -3,6 +3,8 @@ package com.w2coding.settlementserver.member.domain;
 import com.w2coding.settlementserver.common.domain.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
@@ -20,21 +22,12 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
-public class StoreOwner extends BaseTimeEntity {
+public class Store extends BaseTimeEntity {
 
     @Id
-    @Column(name = "member_id")
-    private UUID id;
-
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
-
-    public void setMember(Member member) {
-        this.member = member;
-    }
 
 }
