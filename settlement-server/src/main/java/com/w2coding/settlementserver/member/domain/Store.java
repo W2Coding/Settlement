@@ -25,7 +25,6 @@ import java.util.UUID;
 public class Store extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
