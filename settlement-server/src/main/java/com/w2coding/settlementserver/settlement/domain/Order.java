@@ -1,12 +1,9 @@
 package com.w2coding.settlementserver.settlement.domain;
 
-import com.w2coding.settlementserver.common.domain.BaseTimeEntity;
-import com.w2coding.settlementserver.member.domain.Member;
 import com.w2coding.settlementserver.settlement.domain.enums.OrderStatus;
 import com.w2coding.settlementserver.settlement.domain.enums.OrderType;
-import jakarta.persistence.Id;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,17 +18,9 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@DiscriminatorValue("O")
 @Entity
-public class Order extends BaseTimeEntity {
-
-    @Id
-    private Long id;
-
-    @ManyToOne
-    private Member member;
-
-    @ManyToOne
-    private Settlement settlement;
+public class Order extends SettlementItem {
 
     private Long orderDetailId; // we do not consider order detail
 
@@ -44,9 +33,5 @@ public class Order extends BaseTimeEntity {
     // Payment, 지불과 양방향 연관관계
     @OneToMany(mappedBy = "order")
     private List<Payment> payments = new ArrayList<>();
-
-    public void setSettlement(Settlement settlement) {
-        this.settlement = settlement;
-    }
 
 }
