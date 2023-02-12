@@ -1,6 +1,7 @@
 package com.w2coding.settlementserver.member.domain;
 
 import com.w2coding.settlementserver.common.domain.BaseTimeEntity;
+import com.w2coding.settlementserver.member.domain.enums.Status;
 import com.w2coding.settlementserver.member.domain.id.WorkerId;
 
 import jakarta.persistence.Entity;
@@ -28,5 +29,7 @@ public class Worker extends BaseTimeEntity {
 	@Id
 	@ManyToOne
 	private Member member;
+
+	private Status status;
 
 }

@@ -2,6 +2,7 @@ package com.w2coding.settlementserver.member.domain;
 
 import com.w2coding.settlementserver.common.domain.BaseTimeEntity;
 import com.w2coding.settlementserver.member.domain.enums.MemberType;
+import com.w2coding.settlementserver.member.domain.enums.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -29,6 +30,8 @@ public class Member extends BaseTimeEntity {
     private String name;
 
     private MemberType type;
+
+    private Status status;
 
     private String password;
 
