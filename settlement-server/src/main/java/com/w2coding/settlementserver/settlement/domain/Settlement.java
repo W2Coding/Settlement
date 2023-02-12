@@ -1,11 +1,10 @@
 package com.w2coding.settlementserver.settlement.domain;
 
 import com.w2coding.settlementserver.common.domain.BaseTimeEntity;
-import com.w2coding.settlementserver.member.domain.Member;
+import com.w2coding.settlementserver.member.domain.Store;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,8 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Builder
@@ -27,7 +24,7 @@ public class Settlement extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne
-    private Member member;
+    private Store store;
 
     private Long totalOrderCost;
 
@@ -37,12 +34,13 @@ public class Settlement extends BaseTimeEntity {
 
     private Integer approve;
 
-    // order, 주문과 양방향 연관관계
-    @OneToMany(mappedBy = "settlement")
-    private List<Order> orders = new ArrayList<>();
+    // TODO:: 참조 방법 알아보고 설정하기
+//    // order, 주문과 양방향 연관관계
+//    @OneToMany(mappedBy = "settlement")
+//    private List<SettlementItem> settlementItems = new ArrayList<>();
 
-    public void setMember(Member member) {
-        this.member = member;
+    public void setStore(Store store) {
+        this.store = store;
     }
 
 }
