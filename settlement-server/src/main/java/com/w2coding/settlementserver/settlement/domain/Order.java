@@ -2,6 +2,8 @@ package com.w2coding.settlementserver.settlement.domain;
 
 import com.w2coding.settlementserver.settlement.domain.enums.OrderStatus;
 import com.w2coding.settlementserver.settlement.domain.enums.OrderType;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -22,16 +24,11 @@ import java.util.List;
 @Entity
 public class Order extends SettlementItem {
 
-    private Long orderDetailId; // we do not consider order detail
+	private OrderStatus status;
 
-    private Long userId;        // we do not consider user
+	private OrderType type;
 
-    private OrderStatus status;
-
-    private OrderType type;
-    
-    // Payment, 지불과 양방향 연관관계
-    @OneToMany(mappedBy = "order")
-    private List<Payment> payments = new ArrayList<>();
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+	private List<Payment> payments = new ArrayList<>();
 
 }

@@ -13,6 +13,6 @@ public enum OrderStatus {
 
     ;
 
-    private final int value;
+    private final Integer value;
 
 }
