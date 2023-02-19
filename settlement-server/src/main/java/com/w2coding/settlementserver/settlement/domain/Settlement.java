@@ -43,6 +43,9 @@ public class Settlement extends BaseTimeEntity {
 	@OneToMany(mappedBy = "settlement", cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<SettlementDetail> settlementDetails = new ArrayList<>();
 
+	@OneToMany(mappedBy = "settlement", cascade = CascadeType.ALL)
+	private List<PayoutHistory> settlementHistories = new ArrayList<>();
+
 	public void setStore(Store store) {
 		this.store = store;
 	}
