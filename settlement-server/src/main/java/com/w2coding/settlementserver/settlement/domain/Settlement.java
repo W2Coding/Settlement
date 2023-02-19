@@ -35,7 +35,7 @@ public class Settlement extends BaseTimeEntity {
 
 	private Long totalCompensationCost;
 
-	private LocalDateTime paymentDate;
+	private LocalDateTime requestDate;
 
 	private Integer approve;
 
