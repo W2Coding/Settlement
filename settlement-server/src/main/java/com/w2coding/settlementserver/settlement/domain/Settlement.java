@@ -3,6 +3,7 @@ package com.w2coding.settlementserver.settlement.domain;
 import com.w2coding.settlementserver.common.domain.BaseTimeEntity;
 import com.w2coding.settlementserver.member.domain.Store;
 
+import com.w2coding.settlementserver.settlement.domain.enums.SettlementStatus;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -37,7 +38,7 @@ public class Settlement extends BaseTimeEntity {
 
 	private LocalDateTime requestDate;
 
-	private Integer approve;
+	private SettlementStatus status;
 
 	@OneToMany(mappedBy = "settlement", cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
 	private List<SettlementDetail> settlementDetails = new ArrayList<>();
