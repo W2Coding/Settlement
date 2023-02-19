@@ -1,9 +1,7 @@
 package com.w2coding.settlementserver.settlement.domain;
 
 import com.w2coding.settlementserver.common.domain.BaseTimeEntity;
-import com.w2coding.settlementserver.settlement.domain.enums.SettlementStatus;
 import com.w2coding.settlementserver.settlement.domain.id.SettlementDetailId;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
@@ -30,7 +28,5 @@ public class SettlementDetail extends BaseTimeEntity {
     @Id
     @OneToOne
     private SettlementItem settlementItem;
-
-    private SettlementStatus status;
 
 }
