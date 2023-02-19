@@ -7,9 +7,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum SettlementStatus {
 
+    REQUESTED(0),
+
     SETTLED(1),
 
-    NOT_YET(0),
+    APPROVED(2),
+
+    PAYOUT(3),
 
     ;
 
