@@ -1,92 +1,113 @@
 CREATE TABLE `member`
 (
-    `id`       VARCHAR(36) NOT NULL,
-    `email`    VARCHAR(45) NULL,
-    `name`     VARCHAR(45) NULL,
-    `type`     CHAR(1)     NULL,
-    `password` VARCHAR(45) NULL COMMENT 'encrypted',
-    primary key (id)
-);
+    `id`          binary(16) NOT NULL,
+    `created_at`  DATETIME(6),
+    `modified_at` DATETIME(6),
+    `email`       VARCHAR(255),
+    `name`        VARCHAR(255),
+    `password`    VARCHAR(255),
+    `status`      INTEGER,
+    `type`        CHAR(1),
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `UK_email` (`email`)
+) ENGINE = InnoDB;
 
-CREATE TABLE `order`
+CREATE TABLE `store`
 (
-    `id`              BIGINT(20)  NOT NULL COMMENT 'snowflake id',
-    `member_id`       VARCHAR(36) NOT NULL,
-    `settlement_id`   BIGINT(20)  NULL COMMENT 'snowflake id',
-    `order_detail_id` BIGINT(20)  NULL COMMENT 'snowflake id',
-    `user_id`         BIGINT(20)  NULL COMMENT 'snowflake id',
-    `status`          TINYINT(1)  NULL COMMENT '1 progressing 2 completed 3 canceled',
-    `type`            TINYINT(1)  NULL COMMENT '1 user 2 manager',
-    `created_at`      DATETIME    NULL DEFAULT CURRENT_TIMESTAMP,
-    `updated_at`      DATETIME    NULL DEFAULT CURRENT_TIMESTAMP,
-    primary key (id)
-);
-
-CREATE TABLE `compensation`
-(
-    `id`            BIGINT(20)   NOT NULL COMMENT 'snowflake id',
-    `member_id`     VARCHAR(36)  NOT NULL,
-    `settlement_id` BIGINT(20)   NULL COMMENT 'snowflake id',
-    `is_reward`     Boolean      NOT NULL COMMENT '보상/보정',
-    `cost`          BIGINT(20)   NOT NULL,
-    `reason`        VARCHAR(255) NULL,
-    `issued_at`     DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    primary key (id)
-);
-
-CREATE TABLE `payment`
-(
-    `id`           BIGINT(20) NOT NULL,
-    `order_id`     BIGINT(20) NOT NULL COMMENT 'snowflake id',
-    `payment_type` TINYINT(1) NULL COMMENT '1 card 2 mobile 3 point 4 coupon 5 shopkeeper coupon',
-    `price`        INTEGER    NULL,
-    `created_at`   DATETIME   NULL,
-    primary key (id)
-);
-
-CREATE TABLE `store_owner`
-(
-    `member_id` VARCHAR(36) NOT NULL,
-    `name`      VARCHAR(45) NULL,
-    primary key (member_id)
-);
+    `id`          BIGINT NOT NULL,
+    `created_at`  DATETIME(6),
+    `modified_at` DATETIME(6),
+    `name`        VARCHAR(255),
+    `status`      INTEGER,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB;
 
 CREATE TABLE `settlement`
 (
-    `id`                      BIGINT(20)  NOT NULL COMMENT 'snowflake id',
-    `member_id`               VARCHAR(36) NOT NULL,
-    `total_order_cost`        BIGINT(20)  NULL,
-    `total_compensation_cost` BIGINT(20)  NULL,
-    `payment_date`            DATETIME    NULL DEFAULT CURRENT_TIMESTAMP,
-    `approve`                 BOOLEAN     NULL DEFAULT false,
-    primary key (id)
-);
+    `id`                      BIGINT NOT NULL,
+    `created_at`              DATETIME(6),
+    `modified_at`             DATETIME(6),
+    `request_date`            DATETIME(6),
+    `status`                  smallint,
+    `total_compensation_cost` BIGINT,
+    `total_order_cost`        BIGINT,
+    `store_id`                BIGINT,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `FK_settlement_to_store__store_id` FOREIGN KEY (`store_id`) REFERENCES `store` (`id`)
+) ENGINE = InnoDB;
 
-ALTER TABLE `order`
-    ADD CONSTRAINT `FK_store_owner_TO_order_1` FOREIGN KEY (`member_id`)
-        REFERENCES `store_owner` (`member_id`);
+CREATE TABLE `settlement_item`
+(
+    `dtype`       CHAR(31) NOT NULL,
+    `id`          BIGINT   NOT NULL,
+    `created_at`  DATETIME(6),
+    `modified_at` DATETIME(6),
+    `cost`        BIGINT,
+    `store_id`    BIGINT,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `FK_settlement_item_to_store__id` FOREIGN KEY (`store_id`) REFERENCES `store` (`id`)
+) ENGINE = InnoDB;
 
-ALTER TABLE `order`
-    ADD CONSTRAINT `FK_settlement_TO_order_1` FOREIGN KEY (`settlement_id`)
-        REFERENCES `settlement` (`id`);
+CREATE TABLE `settlement_detail`
+(
+    `created_at`         DATETIME(6),
+    `modified_at`        DATETIME(6),
+    `settlement_id`      BIGINT NOT NULL,
+    `settlement_item_id` BIGINT NOT NULL,
+    PRIMARY KEY (`settlement_id`, `settlement_item_id`),
+    UNIQUE INDEX `UK_settlement_item_id` (`settlement_item_id`),
+    CONSTRAINT `FK_settlement_detail_to_settlement__id` FOREIGN KEY (`settlement_id`) REFERENCES `settlement` (`id`),
+    CONSTRAINT `FK_settlement_detail_to_settlement_item__id` FOREIGN KEY (`settlement_item_id`) REFERENCES `settlement_item` (`id`)
+) ENGINE = InnoDB;
 
-ALTER TABLE `compensation`
-    ADD CONSTRAINT `FK_store_owner_TO_compensation_1` FOREIGN KEY (`member_id`)
-        REFERENCES `store_owner` (`member_id`);
+CREATE TABLE `compensation`
+(
+    `is_reward` bit,
+    `reason`    VARCHAR(255),
+    `id`        BIGINT NOT NULL,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `FK_compensation_to_settlement_item__id` FOREIGN KEY (`id`) REFERENCES `settlement_item` (`id`)
+) ENGINE = InnoDB;
 
-ALTER TABLE `compensation`
-    ADD CONSTRAINT `FK_settlement_TO_compensation_1` FOREIGN KEY (`settlement_id`)
-        REFERENCES `settlement` (`id`);
+CREATE TABLE `order`
+(
+    `status` INTEGER,
+    `id`     BIGINT NOT NULL,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `FK_order_to_settlement_item__id` FOREIGN KEY (`id`) REFERENCES `settlement_item` (`id`)
+) ENGINE = InnoDB;
 
-ALTER TABLE `payment`
-    ADD CONSTRAINT `FK_order_TO_payment_1` FOREIGN KEY (`order_id`)
-        REFERENCES `order` (`id`);
+CREATE TABLE `payment`
+(
+    `id`           BIGINT NOT NULL,
+    `created_at`   DATETIME(6),
+    `modified_at`  DATETIME(6),
+    `payment_type` CHAR(1),
+    `price`        INTEGER,
+    `order_id`     BIGINT,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `FK_payment_to_order__id` FOREIGN KEY (`id`) REFERENCES `order` (`id`)
+) ENGINE = InnoDB;
 
-ALTER TABLE `store_owner`
-    ADD CONSTRAINT `FK_member_TO_store_owner_1` FOREIGN KEY (`member_id`)
-        REFERENCES `member` (`id`);
+CREATE TABLE `payout_history`
+(
+    `id`            BIGINT NOT NULL,
+    `created_at`    DATETIME(6),
+    `is_paid`       bit,
+    `remarks`       VARCHAR(255),
+    `settlement_id` BIGINT,
+    PRIMARY KEY (`id`),
+    CONSTRAINT `FK_payout_history_to_settlement__id` FOREIGN KEY (`id`) REFERENCES `settlement` (`id`)
+) ENGINE = InnoDB;
 
-ALTER TABLE `settlement`
-    ADD CONSTRAINT `FK_store_owner_TO_settlement_1` FOREIGN KEY (`member_id`)
-        REFERENCES `store_owner` (`member_id`);
-
+CREATE TABLE `worker`
+(
+    `created_at`  DATETIME(6),
+    `modified_at` DATETIME(6),
+    `status`      INTEGER,
+    `member_id`   binary(16) NOT NULL,
+    `store_id`    BIGINT     NOT NULL,
+    PRIMARY KEY (`member_id`, `store_id`),
+    CONSTRAINT `FK_worker_to_member__id` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`),
+    CONSTRAINT `FK_worker_to_store__id` FOREIGN KEY (`store_id`) REFERENCES `store` (`id`)
+) ENGINE = InnoDB;
