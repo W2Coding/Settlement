@@ -25,6 +25,14 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
+
+    // common-proto
+    implementation project(':common-proto')
+
+    // grpc
+    implementation 'io.grpc:grpc-netty:1.53.0'
+    implementation 'io.grpc:grpc-protobuf:1.53.0'
+    implementation 'io.grpc:grpc-stub:1.53.0'
 }
 
 tasks.named('test') {
