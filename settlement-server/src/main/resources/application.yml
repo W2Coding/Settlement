@@ -30,4 +30,9 @@ spring:
         globally_quoted_identifiers: true
 
 server:
+  http2:
+    enabled: false
   port: 8081
+
+grpc:
+  port: 8082
