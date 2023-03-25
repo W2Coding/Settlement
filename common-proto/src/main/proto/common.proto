@@ -2,7 +2,7 @@ syntax = "proto3";
 option java_multiple_files = true;
 package com.w2coding.common;
 
-message GreetingResponse {
-  int32 result = 1;
+message GrpcResponse {
+  string result = 1;
   string message = 2;
 }
