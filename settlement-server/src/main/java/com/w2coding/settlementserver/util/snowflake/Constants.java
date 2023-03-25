@@ -1,4 +1,4 @@
-package com.w2coding.settlementserver.util.common;
+package com.w2coding.settlementserver.util.snowflake;
 
 public class Constants {
 

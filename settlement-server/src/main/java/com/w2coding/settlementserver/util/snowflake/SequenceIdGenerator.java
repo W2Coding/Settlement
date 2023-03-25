@@ -1,4 +1,4 @@
-package com.w2coding.settlementserver.util.id;
+package com.w2coding.settlementserver.util.snowflake;
 
 import org.springframework.stereotype.Component;
 

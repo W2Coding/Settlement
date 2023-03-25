@@ -1,7 +1,7 @@
-package com.w2coding.settlementserver.util.id;
+package com.w2coding.settlementserver.util.snowflake;
 
-import static com.w2coding.settlementserver.util.common.Constants.NODE_ID_BIT_LEN;
-import static com.w2coding.settlementserver.util.common.Constants.SEQUENCE_BIT_LEN;
+import static com.w2coding.settlementserver.util.snowflake.Constants.NODE_ID_BIT_LEN;
+import static com.w2coding.settlementserver.util.snowflake.Constants.SEQUENCE_BIT_LEN;
 
 import java.time.Instant;
 
