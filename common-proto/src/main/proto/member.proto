@@ -7,14 +7,14 @@ import "common.proto";
 
 service MemberService {
 
-  rpc SignIn (SignInRequest) returns (GrpcResponse);
+  rpc SignUp (SignUpRequest) returns (GrpcResponse);
 
 }
 
-message SignInRequest {
+message SignUpRequest {
   string name = 1;
   string email = 2;
   string password = 3;
-  string type = 4;
+  int32 type = 4;
   optional int64 store_id = 5;
 }
