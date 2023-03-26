@@ -1,5 +1,6 @@
 package com.w2coding.apigateway.member.dto;
 
+import com.w2coding.proto.member.SignUpRequest;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
@@ -29,5 +30,15 @@ public class SignUpDto {
 	private Character type;
 	
 	private Long storeId;
+
+	public SignUpRequest toSignUpRequest() {
+		return SignUpRequest.newBuilder()
+				.setName(name)
+				.setEmail(email)
+				.setPassword(password)
+				.setType(type)
+				.setStoreId(storeId)
+				.build();
+	}
 
 }
