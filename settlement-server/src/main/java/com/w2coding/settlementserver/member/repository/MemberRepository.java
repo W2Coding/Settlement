@@ -8,4 +8,5 @@ import com.w2coding.settlementserver.member.domain.Member;
 
 public interface MemberRepository extends JpaRepository<Member, UUID> {
 
+	Boolean existsByEmail(String email);
 }
