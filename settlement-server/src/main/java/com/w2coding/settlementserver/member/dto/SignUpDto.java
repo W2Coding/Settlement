@@ -1,8 +1,10 @@
 package com.w2coding.settlementserver.member.dto;
 
 import com.w2coding.proto.member.SignUpRequest;
+import com.w2coding.settlementserver.member.domain.Member;
+import com.w2coding.settlementserver.member.domain.Store;
+import com.w2coding.settlementserver.member.domain.Worker;
 import com.w2coding.settlementserver.member.domain.enums.MemberType;
-
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,12 +12,11 @@ import lombok.Data;
 @Builder
 public class SignUpDto {
 
-	private final String name;
-	private final String email;
-	private final String password;
-	private final MemberType type;
-	private final Long storeId;
-
+	private String name;
+	private String email;
+	private String password;
+	private MemberType type;
+	private Long storeId;
 
 	public static SignUpDto of(SignUpRequest signUpRequest) {
 		return SignUpDto.builder()
@@ -27,4 +28,22 @@ public class SignUpDto {
 			.build();
 	}
 
+	private Worker toWorker(Store store) {
+		return Worker.builder()
+				.name(name)
+				.email(email)
+				.password(password)
+				.type(type)
+				.store(store)
+				.build();
+	}
+
+	private Member toMember() {
+		return Member.builder()
+				.name(name)
+				.email(email)
+				.password(password)
+				.type(type)
+				.build();
+	}
 }
