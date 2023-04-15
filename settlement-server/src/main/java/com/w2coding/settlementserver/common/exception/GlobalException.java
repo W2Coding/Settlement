@@ -1,5 +1,7 @@
 package com.w2coding.settlementserver.common.exception;
 
+import com.w2coding.settlementserver.common.exception.code.GlobalExceptionCode;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -7,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public abstract class GlobalException extends Exception {
 
-	private final String code;
-	private final String message;
+	private final GlobalExceptionCode exceptionCode;
 
 }
