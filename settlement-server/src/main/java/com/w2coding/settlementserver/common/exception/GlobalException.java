@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public abstract class GlobalException extends Exception {
+public abstract class GlobalException extends RuntimeException {
 
 	private final GlobalExceptionCode exceptionCode;
 
