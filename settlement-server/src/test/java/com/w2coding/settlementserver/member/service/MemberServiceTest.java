@@ -4,6 +4,7 @@ import com.w2coding.settlementserver.member.domain.Store;
 import com.w2coding.settlementserver.member.domain.enums.MemberType;
 import com.w2coding.settlementserver.member.domain.enums.Status;
 import com.w2coding.settlementserver.member.dto.SignUpDto;
+import com.w2coding.settlementserver.member.exeption.DisabledStoreException;
 import com.w2coding.settlementserver.member.exeption.DuplicatedEmailException;
 import com.w2coding.settlementserver.member.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -106,10 +107,23 @@ class MemberServiceTest {
 		@DisplayName("가게가 영업 가능 상태가 아닌 경우")
 		void storeDisable() {
 			// given
+			signUpDto.setType(MemberType.USER);
+			signUpDto.setStoreId(1234567L);
 
-			// when
+			Store store = Store.builder()
+				.id(1234567L)
+				.name("testStore")
+				.status(Status.DISABLE)
+				.build();
 
-			// then
+			given(memberRepository.existsByEmail(eq(signUpDto.getEmail())))
+				.willReturn(false);
+			given(storeService.findById(eq(signUpDto.getStoreId())))
+				.willReturn(store);
+
+			// when, then
+			assertThatThrownBy(() -> memberService.signUp(signUpDto))
+				.isInstanceOf(DisabledStoreException.class);
 		}
 	}
 
