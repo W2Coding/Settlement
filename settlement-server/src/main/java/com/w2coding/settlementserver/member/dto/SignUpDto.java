@@ -28,7 +28,7 @@ public class SignUpDto {
 			.build();
 	}
 
-	private Worker toWorker(Store store) {
+	public Worker toWorker(Store store) {
 		return Worker.builder()
 				.name(name)
 				.email(email)
@@ -38,7 +38,7 @@ public class SignUpDto {
 				.build();
 	}
 
-	private Member toMember() {
+	public Member toMember() {
 		return Member.builder()
 				.name(name)
 				.email(email)
