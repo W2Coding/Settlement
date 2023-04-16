@@ -3,13 +3,13 @@ package com.w2coding.settlementserver.member.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import com.w2coding.settlementserver.common.domain.enums.EntityStatus;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.w2coding.settlementserver.member.domain.enums.MemberType;
-import com.w2coding.settlementserver.member.domain.enums.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
@@ -51,7 +51,7 @@ public class Member {
 
     private MemberType type;
 
-    private Status status;
+    private EntityStatus entityStatus;
 
     private String password;
 

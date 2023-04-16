@@ -1,19 +1,17 @@
 package com.w2coding.settlementserver.member.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import com.w2coding.settlementserver.common.domain.enums.EntityStatus;
 import com.w2coding.settlementserver.member.domain.Member;
 import com.w2coding.settlementserver.member.domain.Store;
 import com.w2coding.settlementserver.member.domain.enums.MemberType;
-import com.w2coding.settlementserver.member.domain.enums.Status;
 import com.w2coding.settlementserver.member.dto.SignUpDto;
 import com.w2coding.settlementserver.member.exeption.DisabledStoreException;
 import com.w2coding.settlementserver.member.exeption.DuplicatedEmailException;
 import com.w2coding.settlementserver.member.repository.MemberRepository;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -49,7 +47,7 @@ public class MemberService {
 
 	private Store getStoreIfEnable(Long id) {
 		Store store = storeService.findById(id);
-		if (store.getStatus() == Status.DISABLE) {
+		if (store.getEntityStatus() == EntityStatus.DISABLE) {
 			throw new DisabledStoreException();
 		}
 		return store;

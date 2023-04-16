@@ -1,12 +1,12 @@
 CREATE TABLE `member`
 (
-    `id`          binary(16) NOT NULL,
-    `created_at`  DATETIME(6),
-    `modified_at` DATETIME(6),
-    `email`       VARCHAR(255),
-    `name`        VARCHAR(255),
-    `password`    VARCHAR(255),
-    `status`      INTEGER,
+    `id`           binary(16) NOT NULL,
+    `created_at`   DATETIME(6),
+    `modified_at`  DATETIME(6),
+    `email`        VARCHAR(255),
+    `name`         VARCHAR(255),
+    `password`     VARCHAR(255),
+    `entityStatus` INTEGER,
     `type`        CHAR(1),
     PRIMARY KEY (`id`),
     UNIQUE INDEX `UK_email` (`email`)
@@ -14,11 +14,11 @@ CREATE TABLE `member`
 
 CREATE TABLE `store`
 (
-    `id`          BIGINT NOT NULL,
-    `created_at`  DATETIME(6),
-    `modified_at` DATETIME(6),
-    `name`        VARCHAR(255),
-    `status`      INTEGER,
+    `id`           BIGINT NOT NULL,
+    `created_at`   DATETIME(6),
+    `modified_at`  DATETIME(6),
+    `name`         VARCHAR(255),
+    `entityStatus` INTEGER,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
 
@@ -28,7 +28,7 @@ CREATE TABLE `settlement`
     `created_at`              DATETIME(6),
     `modified_at`             DATETIME(6),
     `request_date`            DATETIME(6),
-    `status`                  smallint,
+    `entityStatus`            smallint,
     `total_compensation_cost` BIGINT,
     `total_order_cost`        BIGINT,
     `store_id`                BIGINT,
@@ -71,8 +71,8 @@ CREATE TABLE `compensation`
 
 CREATE TABLE `order`
 (
-    `status` INTEGER,
-    `id`     BIGINT NOT NULL,
+    `entityStatus` INTEGER,
+    `id`           BIGINT NOT NULL,
     PRIMARY KEY (`id`),
     CONSTRAINT `FK_order_to_settlement_item__id` FOREIGN KEY (`id`) REFERENCES `settlement_item` (`id`)
 ) ENGINE = InnoDB;
@@ -102,11 +102,11 @@ CREATE TABLE `payout_history`
 
 CREATE TABLE `worker`
 (
-    `created_at`  DATETIME(6),
-    `modified_at` DATETIME(6),
-    `status`      INTEGER,
-    `member_id`   binary(16) NOT NULL,
-    `store_id`    BIGINT     NOT NULL,
+    `created_at`   DATETIME(6),
+    `modified_at`  DATETIME(6),
+    `entityStatus` INTEGER,
+    `member_id`    binary(16) NOT NULL,
+    `store_id`     BIGINT     NOT NULL,
     PRIMARY KEY (`member_id`, `store_id`),
     CONSTRAINT `FK_worker_to_member__id` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`),
     CONSTRAINT `FK_worker_to_store__id` FOREIGN KEY (`store_id`) REFERENCES `store` (`id`)
