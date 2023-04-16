@@ -1,11 +1,9 @@
 package com.w2coding.apigateway.common.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class Response<T> {
@@ -16,6 +14,10 @@ public class Response<T> {
 
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private final T data;
+
+	public static ResponseEntity<Response<?>> internalServerError() {
+		return error(HttpStatus.INTERNAL_SERVER_ERROR, "A_UN001", "관리자에게 문의 바랍니다");
+	}
 
 	public static ResponseEntity<Response<?>> error(HttpStatus httpStatus, String code, String message) {
 		return new ResponseEntity<>(new Response<>(code, message, null), httpStatus);
