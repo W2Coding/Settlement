@@ -37,7 +37,7 @@ public class SignUpDto {
 				.setEmail(email)
 				.setPassword(password)
 				.setType(type)
-				.setStoreId(storeId)
+				.setStoreId(storeId == null ? 0 : storeId)
 				.build();
 	}
 
