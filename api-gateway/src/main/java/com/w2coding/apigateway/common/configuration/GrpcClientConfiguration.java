@@ -16,12 +16,11 @@ public class GrpcClientConfiguration {
     @Value("${grpc.settlementServer.port}")
     private int settlementPort;
 
-    private final ManagedChannel settlementServerChannel = ManagedChannelBuilder.forAddress(settlementServer, settlementPort)
-                .usePlaintext()
-                .build();
-
     @Bean
     public MemberServiceGrpc.MemberServiceBlockingStub memberServiceBlockingStub() {
+        ManagedChannel settlementServerChannel = ManagedChannelBuilder.forAddress(settlementServer, settlementPort)
+                .usePlaintext()
+                .build();
         return MemberServiceGrpc.newBlockingStub(settlementServerChannel);
     }
 }
