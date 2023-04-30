@@ -23,7 +23,7 @@ public class SignUpDto {
 			.name(signUpRequest.getName())
 			.email(signUpRequest.getEmail())
 			.password(signUpRequest.getPassword())
-			.type(MemberType.of(Character.forDigit(signUpRequest.getType(), 10)))
+			.type(MemberType.of((char) signUpRequest.getType()))
 			.storeId(signUpRequest.getStoreId())
 			.build();
 	}
