@@ -1,6 +1,7 @@
 package com.w2coding.settlementserver.member.dto;
 
 import com.w2coding.proto.member.SignUpRequest;
+import com.w2coding.settlementserver.common.domain.enums.EntityStatus;
 import com.w2coding.settlementserver.member.domain.Member;
 import com.w2coding.settlementserver.member.domain.Store;
 import com.w2coding.settlementserver.member.domain.Worker;
@@ -29,21 +30,22 @@ public class SignUpDto {
 	}
 
 	public Worker toWorker(Store store) {
-		return Worker.builder()
-				.name(name)
-				.email(email)
-				.password(password)
-				.type(type)
-				.store(store)
-				.build();
+		Worker.WorkerBuilder builder = (Worker.WorkerBuilder) createMember(Worker.builder());
+		return builder
+			.store(store)
+			.build();
 	}
 
 	public Member toMember() {
-		return Member.builder()
-				.name(name)
-				.email(email)
-				.password(password)
-				.type(type)
-				.build();
+		return createMember(Member.builder()).build();
+	}
+
+	private Member.MemberBuilder createMember(Member.MemberBuilder builder) {
+		return builder
+			.name(name)
+			.email(email)
+			.password(password)
+			.type(type)
+			.entityStatus(EntityStatus.ENABLE);
 	}
 }
