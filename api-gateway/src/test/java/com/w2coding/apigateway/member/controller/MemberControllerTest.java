@@ -62,7 +62,6 @@ class MemberControllerTest {
 			responseBody.subscribe(responseObj -> {
 				assertThat(responseObj.getCode()).isEqualTo("A_OK001");
 				assertThat(responseObj.getMessage()).isEqualTo("성공적으로 처리하였습니다");
-				System.out.println();
 			});
 		}
 
