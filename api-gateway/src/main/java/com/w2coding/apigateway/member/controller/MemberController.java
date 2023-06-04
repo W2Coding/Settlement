@@ -11,6 +11,7 @@ import com.w2coding.apigateway.common.response.Response;
 import com.w2coding.apigateway.member.dto.SignUpDto;
 import com.w2coding.apigateway.member.service.MemberService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class MemberController {
 	private final MemberService memberService;
 
 	@PostMapping("sign-up")
-	public ResponseEntity<?> signUp(@RequestBody SignUpDto signUpDto) {
+	public ResponseEntity<?> signUp(@RequestBody @Valid SignUpDto signUpDto) {
 		memberService.signUp(signUpDto);
 		return Response.success(HttpStatus.CREATED);
 	}
