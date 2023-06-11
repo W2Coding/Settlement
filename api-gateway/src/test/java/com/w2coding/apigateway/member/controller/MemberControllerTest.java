@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.reactive.server.FluxExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.w2coding.apigateway.common.response.Response;
@@ -47,18 +46,18 @@ class MemberControllerTest {
 			willDoNothing().given(memberService).signUp(any(SignUpDto.class));
 
 			// when
-			FluxExchangeResult<Response> response = webTestClient.post()
+			WebTestClient.ResponseSpec exchange = webTestClient.post()
 				.uri("/members/sign-up")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)
 				.bodyValue(signUpDto)
-				.exchange()
-				.returnResult(Response.class);
+				.exchange();
 
 			// then
 			then(memberService).should().signUp(any(SignUpDto.class));
+			exchange.expectStatus().isCreated();
 
-			Flux<Response> responseBody = response.getResponseBody();
+			Flux<Response> responseBody = exchange.returnResult(Response.class).getResponseBody();
 			responseBody.subscribe(responseObj -> {
 				assertThat(responseObj.getCode()).isEqualTo("A_OK001");
 				assertThat(responseObj.getMessage()).isEqualTo("성공적으로 처리하였습니다");
