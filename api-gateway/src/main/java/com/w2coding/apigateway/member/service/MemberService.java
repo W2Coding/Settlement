@@ -1,17 +1,17 @@
 package com.w2coding.apigateway.member.service;
 
-import org.springframework.stereotype.Service;
-
 import com.w2coding.apigateway.member.dto.SignUpDto;
-
+import com.w2coding.proto.member.MemberServiceGrpc;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class MemberService {
 
-	public void signUp(SignUpDto signUpDto) {
+    private final MemberServiceGrpc.MemberServiceBlockingStub memberServiceBlockingStub;
 
-	}
-
+    public void signUp(SignUpDto signUpDto) {
+        memberServiceBlockingStub.signUp(signUpDto.toSignUpRequest());
+    }
 }

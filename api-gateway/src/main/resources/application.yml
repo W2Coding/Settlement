@@ -2,3 +2,8 @@ server:
   port: 8080
   http2:
     enabled: false
+
+grpc:
+  settlementServer:
+    host: "localhost"
+    port: 8082

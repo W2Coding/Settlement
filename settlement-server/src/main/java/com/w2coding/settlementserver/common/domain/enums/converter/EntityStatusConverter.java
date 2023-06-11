@@ -1,30 +1,30 @@
-package com.w2coding.settlementserver.member.domain.enums.converter;
+package com.w2coding.settlementserver.common.domain.enums.converter;
 
-import com.w2coding.settlementserver.member.domain.enums.Status;
+import com.w2coding.settlementserver.common.domain.enums.EntityStatus;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 import java.util.stream.Stream;
 
 @Converter(autoApply = true)
-public class StatusConverter implements AttributeConverter<Status, Integer> {
+public class EntityStatusConverter implements AttributeConverter<EntityStatus, Integer> {
 
     @Override
-    public Integer convertToDatabaseColumn(Status status) {
-        if (status == null) {
+    public Integer convertToDatabaseColumn(EntityStatus entityStatus) {
+        if (entityStatus == null) {
             throw new RuntimeException("status is null");
         }
 
-        return status.getValue();
+        return entityStatus.getValue();
     }
 
     @Override
-    public Status convertToEntityAttribute(Integer value) {
+    public EntityStatus convertToEntityAttribute(Integer value) {
         if (value == null) {
             throw new RuntimeException("status is null");
         }
 
-        return Stream.of(Status.values())
+        return Stream.of(EntityStatus.values())
                 .filter(status -> value.equals(status.getValue()))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("no such value in Status"));

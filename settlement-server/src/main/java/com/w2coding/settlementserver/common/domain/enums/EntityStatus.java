@@ -1,11 +1,11 @@
-package com.w2coding.settlementserver.member.domain.enums;
+package com.w2coding.settlementserver.common.domain.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Status {
+public enum EntityStatus {
 
     ENABLE(1),
 

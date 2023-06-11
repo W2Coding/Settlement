@@ -1,7 +1,7 @@
 package com.w2coding.settlementserver.member.domain;
 
 import com.w2coding.settlementserver.common.domain.BaseTimeEntity;
-import com.w2coding.settlementserver.member.domain.enums.Status;
+import com.w2coding.settlementserver.common.domain.enums.EntityStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
@@ -22,6 +22,6 @@ public class Store extends BaseTimeEntity {
 
     private String name;
 
-    private Status status;
+    private EntityStatus entityStatus;
 
 }

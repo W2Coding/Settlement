@@ -1,10 +1,9 @@
 package com.w2coding.settlementserver.member.domain.enums.converter;
 
 import com.w2coding.settlementserver.member.domain.enums.MemberType;
+
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-
-import java.util.stream.Stream;
 
 @Converter(autoApply = true)
 public class MemberTypeConverter implements AttributeConverter<MemberType, Character> {
@@ -22,9 +21,7 @@ public class MemberTypeConverter implements AttributeConverter<MemberType, Chara
         if (code == null)
             throw new RuntimeException("code is null");
 
-        return Stream.of(MemberType.values())
-                .filter(memberType -> code.equals(memberType.getCode()))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("no such a code in MemberType"));
+        return MemberType.of(code);
     }
+
 }
