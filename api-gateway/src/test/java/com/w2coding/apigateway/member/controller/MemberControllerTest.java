@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import com.w2coding.apigateway.common.response.Response;
+import com.w2coding.apigateway.member.dto.SignInDto;
 import com.w2coding.apigateway.member.dto.SignUpDto;
 import com.w2coding.apigateway.member.service.MemberService;
 
@@ -56,6 +57,41 @@ class MemberControllerTest {
 			// then
 			then(memberService).should().signUp(any(SignUpDto.class));
 			exchange.expectStatus().isCreated();
+
+			Flux<Response> responseBody = exchange.returnResult(Response.class).getResponseBody();
+			responseBody.subscribe(responseObj -> {
+				assertThat(responseObj.getCode()).isEqualTo("A_OK001");
+				assertThat(responseObj.getMessage()).isEqualTo("성공적으로 처리하였습니다");
+			});
+		}
+
+	}
+
+	@Nested
+	@DisplayName("로그인 API")
+	class SignIn {
+
+		@Test
+		@DisplayName("로그인 성공")
+		void success() {
+			// given
+			SignInDto signInDto = SignInDto.builder()
+				.email("user1@test.com")
+				.password("1234")
+				.build();
+			willDoNothing().given(memberService).signIn(any(SignInDto.class));
+
+			// when
+			WebTestClient.ResponseSpec exchange = webTestClient.post()
+				.uri("/members/sign-in")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.bodyValue(signInDto)
+				.exchange();
+
+			// then
+			then(memberService).should().signIn(any(SignInDto.class));
+			exchange.expectStatus().isOk();
 
 			Flux<Response> responseBody = exchange.returnResult(Response.class).getResponseBody();
 			responseBody.subscribe(responseObj -> {
