@@ -4,6 +4,7 @@ import com.w2coding.settlementserver.common.domain.enums.EntityStatus;
 import com.w2coding.settlementserver.member.domain.Member;
 import com.w2coding.settlementserver.member.domain.Store;
 import com.w2coding.settlementserver.member.domain.enums.MemberType;
+import com.w2coding.settlementserver.member.dto.SignInDto;
 import com.w2coding.settlementserver.member.dto.SignUpDto;
 import com.w2coding.settlementserver.member.exeption.DisabledStoreException;
 import com.w2coding.settlementserver.member.exeption.DuplicatedEmailException;
@@ -53,4 +54,7 @@ public class MemberService {
 		return store;
 	}
 
+	public void signIn(SignInDto signInDto) {
+
+	}
 }

@@ -1,11 +1,15 @@
 package com.w2coding.settlementserver.member.service;
 
-import com.w2coding.settlementserver.member.domain.Store;
 import com.w2coding.settlementserver.common.domain.enums.EntityStatus;
+import com.w2coding.settlementserver.member.domain.Member;
+import com.w2coding.settlementserver.member.domain.Store;
 import com.w2coding.settlementserver.member.domain.enums.MemberType;
+import com.w2coding.settlementserver.member.dto.SignInDto;
 import com.w2coding.settlementserver.member.dto.SignUpDto;
 import com.w2coding.settlementserver.member.exeption.DisabledStoreException;
 import com.w2coding.settlementserver.member.exeption.DuplicatedEmailException;
+import com.w2coding.settlementserver.member.exeption.SignInFailException;
+import com.w2coding.settlementserver.member.exeption.code.MemberExceptionCode;
 import com.w2coding.settlementserver.member.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +19,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.eq;
@@ -125,6 +131,90 @@ class MemberServiceTest {
 			assertThatThrownBy(() -> memberService.signUp(signUpDto))
 				.isInstanceOf(DisabledStoreException.class);
 		}
+	}
+
+	@Nested
+	@DisplayName("로그인")
+	class SignIn {
+		private String email = "test@gamil.com";
+		private String password = "1234";
+		private SignInDto signInDto = SignInDto.builder()
+				.email(email)
+				.password(password)
+				.build();
+
+		@Test
+		@DisplayName("로그인 성공")
+		public void success() {
+			// given
+			Member member = Member.builder()
+					.entityStatus(EntityStatus.ENABLE)
+					.build();
+
+			given(memberRepository.findByEmail(eq(email)))
+					.willReturn(Optional.of(member));
+
+			// when
+			memberService.signIn(signInDto);
+
+			// then
+			then(memberRepository).should().findByEmail(eq(email));
+		}
+
+		@Test
+		@DisplayName("해당 이메일의 회원이 없는 경우")
+		public void userEmailNotFound() {
+			// given
+			given(memberRepository.findByEmail(eq(email)))
+					.willReturn(Optional.empty());
+
+			// when, then
+			then(memberRepository).should().findByEmail(eq(email));
+			assertThatThrownBy(() -> memberService.signIn(signInDto))
+					.isInstanceOf(SignInFailException.class)
+					.hasFieldOrPropertyWithValue("code", MemberExceptionCode.WRONG_EMAIL_OR_PASSWORD.getCode())
+					.hasFieldOrPropertyWithValue("message", MemberExceptionCode.WRONG_EMAIL_OR_PASSWORD.getMessage());
+		}
+
+		@Test
+		@DisplayName("비밀번호가 다른 경우")
+		public void passwordIsNotCorrect() {
+			// given
+			Member member = Member.builder()
+					.password("5678")
+					.entityStatus(EntityStatus.ENABLE)
+					.build();
+
+			given(memberRepository.findByEmail(eq(email)))
+					.willReturn(Optional.of(member));
+
+			// when, then
+			then(memberRepository).should().findByEmail(eq(email));
+			assertThatThrownBy(() -> memberService.signIn(signInDto))
+					.isInstanceOf(SignInFailException.class)
+					.hasFieldOrPropertyWithValue("code", MemberExceptionCode.WRONG_EMAIL_OR_PASSWORD.getCode())
+					.hasFieldOrPropertyWithValue("message", MemberExceptionCode.WRONG_EMAIL_OR_PASSWORD.getMessage());
+		}
+
+		@Test
+		@DisplayName("회원 상태가 disable 인 경우")
+		public void userIsDisable() {
+			// given
+			Member member = Member.builder()
+					.entityStatus(EntityStatus.DISABLE)
+					.build();
+
+			given(memberRepository.findByEmail(eq(email)))
+					.willReturn(Optional.of(member));
+
+			// when, then
+			then(memberRepository).should().findByEmail(eq(email));
+			assertThatThrownBy(() -> memberService.signIn(signInDto))
+					.isInstanceOf(SignInFailException.class)
+					.hasFieldOrPropertyWithValue("code", MemberExceptionCode.DISABLED_MEMBER.getCode())
+					.hasFieldOrPropertyWithValue("message", MemberExceptionCode.DISABLED_MEMBER.getMessage());
+		}
+
 	}
 
 }
