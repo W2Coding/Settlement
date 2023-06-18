@@ -2,7 +2,9 @@ package com.w2coding.settlementserver.member.grpc;
 
 import com.w2coding.proto.common.GrpcResponse;
 import com.w2coding.proto.member.MemberServiceGrpc;
+import com.w2coding.proto.member.SignInRequest;
 import com.w2coding.proto.member.SignUpRequest;
+import com.w2coding.settlementserver.member.dto.SignInDto;
 import com.w2coding.settlementserver.member.dto.SignUpDto;
 import com.w2coding.settlementserver.member.service.MemberService;
 import io.grpc.stub.StreamObserver;
@@ -20,6 +22,13 @@ public class MemberGrpcService extends MemberServiceGrpc.MemberServiceImplBase {
     @Override
     public void signUp(SignUpRequest request, StreamObserver<GrpcResponse> observer) {
         memberService.signUp(SignUpDto.of(request));
+        observer.onNext(GrpcResponse.newBuilder().build());
+        observer.onCompleted();
+    }
+
+    @Override
+    public void signIn(SignInRequest request, StreamObserver<GrpcResponse> observer) {
+        memberService.signIn(SignInDto.of(request));
         observer.onNext(GrpcResponse.newBuilder().build());
         observer.onCompleted();
     }
