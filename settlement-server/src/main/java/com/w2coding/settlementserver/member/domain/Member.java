@@ -61,4 +61,8 @@ public class Member {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
+    public boolean isDisabled() {
+        return this.entityStatus == EntityStatus.DISABLE;
+    }
+
 }
