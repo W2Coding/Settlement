@@ -8,6 +8,8 @@ import com.w2coding.settlementserver.member.dto.SignInDto;
 import com.w2coding.settlementserver.member.dto.SignUpDto;
 import com.w2coding.settlementserver.member.exeption.DisabledStoreException;
 import com.w2coding.settlementserver.member.exeption.DuplicatedEmailException;
+import com.w2coding.settlementserver.member.exeption.SignInFailException;
+import com.w2coding.settlementserver.member.exeption.code.MemberExceptionCode;
 import com.w2coding.settlementserver.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +57,19 @@ public class MemberService {
 	}
 
 	public void signIn(SignInDto signInDto) {
+		Member member = memberRepository.findByEmail(signInDto.getEmail())
+			.orElseThrow(() -> new SignInFailException(MemberExceptionCode.WRONG_EMAIL_OR_PASSWORD));
 
+		if (isNotEquals(member.getPassword(), signInDto.getPassword())) {
+			throw new SignInFailException(MemberExceptionCode.WRONG_EMAIL_OR_PASSWORD);
+		}
+
+		if (member.isDisabled()) {
+			throw new SignInFailException(MemberExceptionCode.DISABLED_MEMBER);
+		}
+	}
+
+	private boolean isNotEquals(String originalPassword, String inputPassword) {
+		return originalPassword.equals(inputPassword);
 	}
 }
