@@ -1,6 +1,6 @@
-package com.w2coding.settlementserver.common.exception;
+package com.w2coding.library.exception;
 
-import com.w2coding.settlementserver.common.exception.code.GlobalExceptionCode;
+import com.w2coding.library.exception.code.GlobalExceptionCode;
 import io.grpc.Status;
 import lombok.Getter;
 

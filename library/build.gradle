@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.2'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'com.w2coding'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+jar {
+    enabled = true
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+ext {
+    libraryVersion = [
+            grpc: '1.53.0'
+    ]
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.projectlombok:lombok:1.18.30'
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.projectlombok:lombok'
+    runtimeOnly 'org.aspectj:aspectjweaver:1.9.20.1'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // common-proto
+//    implementation project(':common-proto')
+
+    // grpc
+    implementation "io.grpc:grpc-netty:${libraryVersion.grpc}"
+    implementation "io.grpc:grpc-protobuf:${libraryVersion.grpc}"
+    implementation "io.grpc:grpc-stub:${libraryVersion.grpc}"
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

@@ -1,4 +1,4 @@
-package com.w2coding.settlementserver.common.exception.code;
+package com.w2coding.library.exception.code;
 
 import io.grpc.Status;
 import lombok.Getter;

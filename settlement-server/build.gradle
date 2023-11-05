@@ -35,6 +35,9 @@ dependencies {
     // common-proto
     implementation project(':common-proto')
 
+    // library
+    implementation project(':library')
+
     // grpc
     implementation 'io.grpc:grpc-netty:1.53.0'
     implementation 'io.grpc:grpc-protobuf:1.53.0'
