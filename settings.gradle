@@ -2,4 +2,6 @@ rootProject.name = 'settlement'
 
 include 'api-gateway'
 include 'common-proto'
+include 'library'
 include 'settlement-server'
+include 'security-server'
