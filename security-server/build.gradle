@@ -1,0 +1,48 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.0.2'
+	id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'com.w2coding'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = "17"
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+
+	// library
+	implementation project(':library')
+
+	// common-proto
+	implementation project(':common-proto')
+
+	// grpc
+	implementation 'io.grpc:grpc-netty:1.53.0'
+	implementation 'io.grpc:grpc-protobuf:1.53.0'
+	implementation 'io.grpc:grpc-stub:1.53.0'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+targetCompatibility = JavaVersion.VERSION_17
