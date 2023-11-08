@@ -1,0 +1,39 @@
+spring:
+  profiles:
+    active: devProfile
+
+---
+
+spring:
+  profiles:
+    group:
+      "devProfile": "dev"
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/settlement?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8
+    username: w2coding
+    password: settlement
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        globally_quoted_identifiers: true
+        globally_quoted_identifiers_skip_column_definitions: true
+
+server:
+  http2:
+    enabled: false
+  port: 8083
+
+grpc:
+  port: 8084
