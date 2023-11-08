@@ -1,9 +1,8 @@
 package com.w2coding.settlementserver.settlement.domain;
 
 import com.w2coding.settlementserver.common.domain.BaseTimeEntity;
-import com.w2coding.settlementserver.member.domain.Store;
-
 import com.w2coding.settlementserver.settlement.domain.enums.SettlementStatus;
+import com.w2coding.settlementserver.store.domain.Store;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

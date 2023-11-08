@@ -1,7 +1,7 @@
 package com.w2coding.settlementserver.settlement.domain;
 
 import com.w2coding.settlementserver.common.domain.BaseTimeEntity;
-import com.w2coding.settlementserver.member.domain.Store;
+import com.w2coding.settlementserver.store.domain.Store;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;

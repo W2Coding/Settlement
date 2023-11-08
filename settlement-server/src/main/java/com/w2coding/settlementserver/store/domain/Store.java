@@ -1,7 +1,7 @@
-package com.w2coding.securityserver.member.domain;
+package com.w2coding.settlementserver.store.domain;
 
-import com.w2coding.securityserver.common.domain.BaseTimeEntity;
-import com.w2coding.securityserver.common.domain.enums.EntityStatus;
+import com.w2coding.settlementserver.common.domain.BaseTimeEntity;
+import com.w2coding.settlementserver.common.domain.enums.EntityStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.AccessLevel;
